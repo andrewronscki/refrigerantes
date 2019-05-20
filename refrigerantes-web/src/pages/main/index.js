@@ -22,13 +22,15 @@ export default class Main extends Component {
         const { products } = this.state;
         return (
             <div className="product-list">
-                {products.map(product => (
-                    <article key={product.id}>
-                        <strong>{product.sabor}</strong>
-                        <p>{product.quantidade}</p>
-                        <a href="">Comprar</a>
-                    </article>
-                ))}
+                <article>
+                    <select>
+                        {products.map(product => (
+                            <option key={product.id}>
+                                {product.sabor}, {product.quantidade}
+                            </option>
+                        ))}
+                    </select>
+                </article>
             </div>
         )
     }
