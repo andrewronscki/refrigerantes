@@ -24,23 +24,36 @@ export default class Main extends Component {
         this.setState({ products: response.data});
     };
 
-    handlerTotalPrice = () => {
-        const calculate = this.state.price *  this.refs.amount.value;
-        const setTotalPrice = { totalPrice: calculate };
-        this.setState(setTotalPrice)
-            if(calculate > 0) {
-                Swal.fire('Calculamos para você', `O valor total do(s) produto(s) é 
-                R$: ${calculate}` , 'success');
-            } else {
-                Swal.fire('Atenção!', 'Você esqueceu de por algum parâmetro, favor verificar' 
-                , 'warning')
-            }
-        
-    };
-
     handleChange = (event) => {   
         const setPrice =  {price: event.target.value };
         this.setState(setPrice);
+    };
+
+    handlerTotalPrice = () => {
+        if(!this.refs.amount.value && (!this.state.price || this.state.price == 0)){
+            Swal.fire('Atenção!', 'Você precisa selecionar um produto e uma quantidade.', 'warning');
+        } else {
+            if(!this.refs.amount.value) {
+                Swal.fire('Atenção!', 'Você precisa informar uma quantidade.', 'warning');
+            } else {
+                if(this.refs.amount.value <= 0) {
+                    Swal.fire('Atenção!', `A quantidade desejada precisa ser maior que 0, você nos informou: ${this.refs.amount.value}`, 'warning');
+                } else {
+                    if(this.state.price <= 0 || !this.state.price) {
+                        Swal.fire('Atenção!', 'Você esqueceu de selecionar um produto.', 'warning');
+                    } else {
+                        const totalPrice = this.state.price *  this.refs.amount.value;
+                        if(totalPrice > 0) {
+                            const setTotalPrice = { totalPrice };
+                            this.setState(setTotalPrice);
+                            Swal.fire('Calculamos para você', `O valor total do(s) produto(s) é R$: ${totalPrice}` , 'success');
+                        } else {
+                            Swal.fire('Atenção!', 'Você esqueceu de por algum parâmetro, favor verificar', 'warning');
+                        }              
+                    }
+                } 
+            }       
+        }        
     };
 
     render() {
