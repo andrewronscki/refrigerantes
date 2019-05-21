@@ -67,7 +67,7 @@ export default class Main extends Component {
                         <option value = {0}>Selecione</option>
                         {products.map(product => (                            
                             <option ref="product" key={product.id} value={product.valor}>
-                                {product.sabor}, {product.quantidade}
+                                {product.sabor}, {product.quantidade}, R$: {product.valor}
                             </option>
                         ))}
                     </select>               
@@ -79,7 +79,7 @@ export default class Main extends Component {
 
                 <article>
                     <strong>Valor total:</strong>
-                    <p disabled>R$: {this.state.totalPrice}</p>
+                    <p>R$: {this.state.totalPrice}</p>
                 </article>
                 
                 <button type="submit" onClick={() => this.handlerTotalPrice()}>CALCULAR VALOR<FontAwesome name='dollar' className="font-awesome"/></button>
