@@ -28,7 +28,7 @@ export default class Main extends Component {
     };
 
     handlerTotalPrice = () => {
-        if(!this.refs.amount.value && (!this.state.price || this.state.price == 0)){
+        if(!this.refs.amount.value && (!this.state.price || this.state.price === 0)){
             Swal.fire('Atenção!', 'Você precisa selecionar um produto e uma quantidade.', 'warning');
         } else {
             if(!this.refs.amount.value) {
