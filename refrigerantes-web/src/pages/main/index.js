@@ -4,8 +4,6 @@ import Swal from 'sweetalert2';
 import api from '../../services/api';
 import "./styles.css";
 
-
-
 export default class Main extends Component {
     
     state = {
@@ -36,14 +34,14 @@ export default class Main extends Component {
             if(!this.refs.amount.value) {
                 Swal.fire('Atenção!', 'Você precisa informar uma quantidade.', 'warning');
             } else {
-                if(this.refs.amount.value <= 0) {
-                    Swal.fire('Atenção!', `A quantidade desejada precisa ser maior que 0, você nos informou: ${this.refs.amount.value}`, 'warning');
+                if(this.refs.amount.value < 0) {
+                    Swal.fire('Atenção!', `A quantidade não pode ser um número negativo, você nos informou: ${this.refs.amount.value}`, 'warning');
                 } else {
                     if(this.state.price <= 0 || !this.state.price) {
                         Swal.fire('Atenção!', 'Você esqueceu de selecionar um produto.', 'warning');
                     } else {
                         const totalPrice = this.state.price *  this.refs.amount.value;
-                        if(totalPrice > 0) {
+                        if(totalPrice >= 0) {
                             const setTotalPrice = { totalPrice };
                             this.setState(setTotalPrice);
                             Swal.fire('Calculamos para você', `O valor total do(s) produto(s) é R$: ${totalPrice}` , 'success');
@@ -67,7 +65,7 @@ export default class Main extends Component {
                         <option value = {0}>Selecione</option>
                         {products.map(product => (                            
                             <option ref="product" key={product.id} value={product.valor}>
-                                {product.sabor}, {product.quantidade}, R$: {product.valor}
+                                {product.sabor}, {product.quantidade}, R$: {product.valor.toFixed(2)}
                             </option>
                         ))}
                     </select>               
@@ -79,7 +77,7 @@ export default class Main extends Component {
 
                 <article>
                     <strong>Valor total:</strong>
-                    <p>R$: {this.state.totalPrice}</p>
+                    <p>R$: {this.state.totalPrice.toFixed(2)}</p>
                 </article>
                 
                 <button type="submit" onClick={() => this.handlerTotalPrice()}>CALCULAR VALOR<FontAwesome name='dollar' className="font-awesome"/></button>
