@@ -8,13 +8,28 @@ export default class Main extends Component {
     
     state = {
         products: [],
+        productList: [],
         totalPrice: 0,
         price: 0,
     };
 
     componentDidMount() {
         this.loadProducts();
-    };
+
+        const productList = localStorage.getItem('productList');
+
+        if (productList) {
+            this.setState({ productList: JSON.parse(productList) });
+        }
+    }
+
+    componentDidUpdate() {
+        const { productList } = this.state;
+
+        if (prevState.productList !== productList) {
+            localStorage.setItem('productList', JSON.stringify(productList));
+        }
+    }
 
     loadProducts = async () => {
         const response = await api.get();
