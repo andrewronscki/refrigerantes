@@ -37,13 +37,17 @@ export default class Main extends Component {
   };
 
   handleChange = event => {
-    const setPrice = { price: event.target.value };
+    const a = event.target.value.split(',');
+    const price = a[0];
+    const setPrice = { price };
+    console.log(price);
     this.setState(setPrice);
   };
 
   handlerTotalPrice = () => {
     const { price, products } = this.state;
     const { amount } = this.refs;
+    const { product } = this.refs;
 
     if (!amount.value && (!price || price === 0)) {
       Swal.fire(
@@ -95,7 +99,11 @@ export default class Main extends Component {
           <select onChange={this.handleChange}>
             <option value={0}>Selecione</option>
             {products.map(product => (
-              <option ref="product" key={product.id} value={product.valor}>
+              <option
+                ref="product"
+                key={product.id}
+                value={[product.valor, product.sabor, product.quantidade]}
+              >
                 {product.sabor}, {product.quantidade}, R$:{' '}
                 {product.valor.toFixed(2)}
               </option>
