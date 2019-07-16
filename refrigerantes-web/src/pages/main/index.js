@@ -7,7 +7,8 @@ import './styles.css';
 export default class Main extends Component {
   state = {
     products: [],
-    productList: [],
+    productList: [{ mensagem: '' }],
+    productTemp: [],
     totalPrice: 0,
     price: 0,
   };
@@ -37,17 +38,24 @@ export default class Main extends Component {
   };
 
   handleChange = event => {
-    const a = event.target.value.split(',');
-    const price = a[0];
+    const valueOfSelect = event.target.value.split(',');
+    const price = valueOfSelect[0];
+    const sabor = valueOfSelect[1];
+    const quantidade = valueOfSelect[2];
     const setPrice = { price };
-    console.log(price);
+    const setProductTemp = {
+      price,
+      sabor,
+      quantidade,
+    };
+    this.setState({ productTemp: setProductTemp });
     this.setState(setPrice);
   };
 
   handlerTotalPrice = () => {
-    const { price, products } = this.state;
+    const { price } = this.state;
+    const { productTemp } = this.state;
     const { amount } = this.refs;
-    const { product } = this.refs;
 
     if (!amount.value && (!price || price === 0)) {
       Swal.fire(
@@ -70,7 +78,8 @@ export default class Main extends Component {
         'warning'
       );
     } else {
-      const totalPrice = price * amount.value;
+      const quantidadeTotal = amount.value;
+      const totalPrice = price * quantidadeTotal;
       if (totalPrice >= 0) {
         const setTotalPrice = { totalPrice };
         this.setState(setTotalPrice);
@@ -79,6 +88,13 @@ export default class Main extends Component {
           `O valor total do(s) produto(s) é R$: ${totalPrice}`,
           'success'
         );
+        const mensagem = `${productTemp.sabor}, ${productTemp.quantidade}, 1un = R$: ${price}, total: ${quantidadeTotal}un = R$: ${totalPrice}`;
+        const setProductList = {
+          id: Math.random(1000),
+          mensagem,
+        };
+        this.setState({ productList: setProductList });
+        console.log(setProductList);
       } else {
         Swal.fire(
           'Atenção!',
@@ -129,7 +145,7 @@ export default class Main extends Component {
           <ul>
             {productList.map(product => (
               <li key={product.id}>
-                <span>{product.name}</span>
+                <span>{product.mensagem}</span>
               </li>
             ))}
           </ul>
