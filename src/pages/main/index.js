@@ -65,10 +65,10 @@ export default class Main extends Component {
       );
     } else if (!amount.value) {
       Swal.fire('Atenção!', 'Você precisa informar uma quantidade.', 'warning');
-    } else if (amount.value < 0) {
+    } else if (amount.value <= 0) {
       Swal.fire(
         'Atenção!',
-        `A quantidade não pode ser um número negativo, você nos informou: ${amount.value}`,
+        `A quantidade não pode ser um número negativo nem zerada, você nos informou: ${amount.value}`,
         'warning'
       );
     } else if (price <= 0 || !price) {
