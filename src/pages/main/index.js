@@ -7,7 +7,7 @@ import './styles.css';
 export default class Main extends Component {
   state = {
     products: [],
-    productList: [{ mensagem: '' }],
+    productList: [],
     productTemp: [],
     totalPrice: 0,
     price: 0,
@@ -53,7 +53,7 @@ export default class Main extends Component {
   };
 
   handlerTotalPrice = () => {
-    const { price } = this.state;
+    const { price, productList } = this.state;
     const { productTemp } = this.state;
     const { amount } = this.refs;
 
@@ -82,19 +82,27 @@ export default class Main extends Component {
       const totalPrice = price * quantidadeTotal;
       if (totalPrice >= 0) {
         const setTotalPrice = { totalPrice };
+
         this.setState(setTotalPrice);
+
         Swal.fire(
           'Calculamos para você',
           `O valor total do(s) produto(s) é R$: ${totalPrice}`,
           'success'
         );
+
         const mensagem = `${productTemp.sabor}, ${productTemp.quantidade}, 1un = R$: ${price}, total: ${quantidadeTotal}un = R$: ${totalPrice}`;
-        const setProductList = {
-          id: Math.random(1000),
+
+        const id = Math.floor(Math.random() * 1000000);
+
+        const data = {
+          id,
           mensagem,
         };
-        this.setState({ productList: setProductList });
-        console.log(setProductList);
+
+        this.setState({
+          productList: [...productList, data],
+        });
       } else {
         Swal.fire(
           'Atenção!',
@@ -120,7 +128,7 @@ export default class Main extends Component {
                 key={product.id}
                 value={[product.valor, product.sabor, product.quantidade]}
               >
-                {product.sabor}, {product.quantidade}, R$:{' '}
+                {product.sabor},{product.quantidade}, R$:{' '}
                 {product.valor.toFixed(2)}
               </option>
             ))}
@@ -131,21 +139,15 @@ export default class Main extends Component {
           <input ref="amount" type="number" />
         </article>
 
-        <article>
-          <strong>Valor total:</strong>
-          <p>R$: {totalPrice.toFixed(2)}</p>
-        </article>
-
         <button type="submit" onClick={() => this.handlerTotalPrice()}>
-          CALCULAR VALOR
-          <FontAwesome name="dollar" className="font-awesome" />
+          ENVIAR
         </button>
 
         <article>
           <ul>
-            {productList.map(product => (
-              <li key={product.id}>
-                <span>{product.mensagem}</span>
+            {productList.map(list => (
+              <li key={list.id}>
+                <span>{list.mensagem}</span>
               </li>
             ))}
           </ul>
