@@ -1,8 +1,8 @@
 ## Comments
 
 Clone the project.<br>
-In the CMD write `cd project-name` and after `npm install`.<br>
-For check this project online, please <a href="https://refrigerantes-web.firebaseapp.com" rel="nofollow">click here.</a><br>
+In the CMD write `cd project-name` and after `npm install` or `yarn`.<br>
+For check this project online, please <a href="https://refrigerantes.herokuapp.com/" rel="nofollow">click here.</a><br>
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
