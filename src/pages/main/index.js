@@ -144,6 +144,7 @@ export default class Main extends Component {
         </button>
 
         <article>
+          <strong>Lista de produtos:</strong>
           <ul>
             {productList.map(list => (
               <li key={list.id}>
